@@ -1,0 +1,24 @@
+FROM docker.io/manjaroarm/manjaro-arm-base
+
+# Signing keys for packages occasionally change
+RUN pacman-key --refresh-keys
+
+# Update package database
+RUN pacman -Sy --noconfirm
+# Update packages using package database
+RUN pacman -Su  --noconfirm
+
+RUN pacman -S --noconfirm make
+RUN pacman -S "gcc>=12.0" --noconfirm gcc
+
+RUN gcc -v
+
+COPY src /opt/project/src
+COPY Makefile /opt/project
+COPY containers/build-and-test.sh /run.sh
+
+RUN uname -a
+RUN cat /etc/os-release
+
+WORKDIR /
+ENTRYPOINT ["/run.sh"]

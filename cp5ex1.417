@@ -1,0 +1,10 @@
+// The definition of 'incr' is evaluated in an environment in which
+// 'amt' has a global binding, and is bound to the value 1.
+//
+// The result here should be 6.
+{
+  let amt 1;
+  let incr lambda(n) {add(amt,n)};
+  incr(5)
+}
+

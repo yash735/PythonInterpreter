@@ -1,0 +1,5 @@
+{
+  let outer lambda() {lambda(n) {add(10, n)}};
+  let inner outer();
+  inner(5)
+}

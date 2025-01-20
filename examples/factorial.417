@@ -1,0 +1,10 @@
+// Factorial
+// CSC 417
+
+def fact = λ(n) {
+  cond 
+    (zero?(n) => 1) 
+    (true => mul(n, fact(sub(n, 1))))
+}
+
+

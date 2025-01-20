@@ -1,0 +1,24 @@
+FROM rockylinux:9
+
+RUN dnf -y update
+RUN dnf install -y epel-release
+RUN dnf group install -y "Development Tools"
+
+# ASAN and UBSAN libs are not included in this distro
+RUN dnf install -y libasan libubsan
+
+# Might need some bsd functions
+RUN dnf -y install libbsd-devel
+
+COPY src /opt/project/src
+COPY Makefile /opt/project
+COPY containers/build-and-test.sh /run.sh
+
+# Record the system type and OS version in the output
+
+RUN uname -a
+RUN cat /etc/os-release
+RUN gcc -v
+
+WORKDIR /
+ENTRYPOINT ["/run.sh"]

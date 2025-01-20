@@ -1,0 +1,21 @@
+FROM debian:latest
+
+RUN apt-get -y update && apt-get install -y \
+  gcc \
+  git \
+  make \
+  libbsd-dev
+
+# Debian comes with libasan and libubsan, so no need to install them explicitly
+
+COPY src /opt/project/src
+COPY Makefile /opt/project
+COPY containers/build-and-test.sh /run.sh
+
+# Record the system type and OS version in the output
+
+RUN uname -a
+RUN cat /etc/os-release
+
+WORKDIR /
+ENTRYPOINT ["/run.sh"]

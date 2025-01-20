@@ -1,0 +1,11 @@
+// Confirming that lexical scope is in effect:
+//
+// This program should produce 11 because x is 10 in the initial
+// environment, and 'incr' is defined in that environment.
+//
+// 'incr' does not "see" the new binding introduced later.
+{
+  let incr = λ(n) { add(n, x) };
+  let x = 3;
+  incr(1)
+}

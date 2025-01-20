@@ -1,0 +1,7 @@
+// This should produce 4 because there is only one binding for x.
+// The assignment statement changes the value bound to x.
+{
+  let incr = λ(n) { add(n, x) };
+  x = 3;
+  incr(1)
+}

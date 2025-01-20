@@ -1,0 +1,6 @@
+// This should produce
+{
+  let y = 0;
+  let z = y = x = 333;
+  print("x is ", x, "\ny is ", y, "\nz is ", z, "\n")
+}

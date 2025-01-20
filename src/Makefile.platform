@@ -1,0 +1,89 @@
+# -*- Mode: Makefile; -*-                                                
+#
+# Makefile.platform
+#
+# (C) Jamie A. Jennings, 2024
+
+# -----------------------------------------------------------------------------
+# ESTABLISH THE PLATFORM: CPU ARCH and OS
+# -----------------------------------------------------------------------------
+
+ARCH_DETECTED=$(shell uname -m)
+
+ifneq (,$(findstring arm64,$(ARCH_DETECTED)))
+  ARCH=arm64
+else ifneq (,$(findstring aarch64,$(ARCH_DETECTED)))
+  ARCH=arm64
+else ifneq (,$(findstring x86_64,$(ARCH_DETECTED)))
+  ARCH=x86_64
+else
+  $(info NOTE: Unknown CPU architecture: $(ARCH_DETECTED))
+  ARCH=
+endif
+
+OS_DETECTED=$(shell (uname -o || uname -s) 2> /dev/null)
+ifeq ($(OS_DETECTED), Darwin)
+  OS=macos
+else ifeq ($(OS_DETECTED), Linux)
+  OS=linux
+else ifeq ($(OS_DETECTED), GNU/Linux)
+  OS=linux
+else
+  $(info NOTE: Unknown OS: $(OS_DETECTED))
+  OS=
+endif
+
+$(info NOTE: Platform detected: $(OS)/$(ARCH))
+
+# -----------------------------------------------------------------------------
+# ESTABLISH THE COMPILER BEING USED
+# -----------------------------------------------------------------------------
+
+# Having CC set to cc is not useful because the executable cc is
+# inconsistent across platforms.  We treat cc as if CC were not set.
+ifeq ($(CC),cc)
+ CC=
+endif
+
+ifeq ($(OS),macos)
+  ifeq ($(CC),) 
+    CC=clang
+  endif
+else ifeq ($(OS),linux)
+  ifeq ($(CC),) 
+    CC=gcc
+  endif
+else
+  $(error Unsupported OS: $(OS))
+endif
+
+# gcc is often installed with its version number, e.g. gcc-14.
+#
+# We adapt below for things like
+#
+#    'make CC=gcc-9' or 'CC=gcc-14 make build'
+#
+# COMPILER will be gcc or clang, while CC holds the executable name.
+#
+ifneq (,$(findstring gcc,$(CC)))
+  $(info NOTE: Invoking gcc using: $(CC))
+  COMPILER=gcc
+  ifneq (,$(findstring -,$(CC)))
+    AR=$(subst gcc,gcc-ar,$(CC))
+    RANLIB=$(subst gcc,gcc-ranlib,$(CC))
+    COV=$(subst gcc,gcov,$(CC))
+  else
+    AR=ar
+    RANLIB=ranlib
+    COV=gcov
+  endif
+else ifeq ($(findstring clang,$(CC)),clang)
+  $(info NOTE: Using clang as: $(CC))
+  COMPILER=clang
+  AR=ar
+  RANLIB=ranlib
+  COV=gcov
+else
+  $(error Compiler "$(CC)" not recognized as gcc or clang)
+endif
+

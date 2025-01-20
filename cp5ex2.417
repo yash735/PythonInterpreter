@@ -1,0 +1,13 @@
+// Under dynamic scope, the result here should be 105.
+
+// There is a new binding for 'amt' introduced after the definition
+// of 'incr'.  When 'incr' runs and looks up 'amt', it finds the most
+// recent binding, not the one that was extant when 'incr' was defined.
+
+{
+  let amt 1;
+  let incr lambda(n) {add(amt,n)};
+  let amt 100;
+  incr(5)
+}
+

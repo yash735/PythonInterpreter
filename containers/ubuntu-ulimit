@@ -1,0 +1,26 @@
+FROM ubuntu:22.04
+
+RUN apt-get -y update && apt-get install -y \
+  gcc \
+  git \
+  make \
+  libbsd-dev
+
+# Some systems, like NCSU VCL, lack the standard set of C headers
+RUN apt-get install -y libc6-dev
+
+
+
+COPY src /opt/project/src
+COPY Makefile /opt/project
+COPY containers/build-and-test.sh /run.sh
+
+# Record the system type and OS version in the output
+
+RUN uname -a
+RUN cat /etc/os-release
+
+WORKDIR /
+
+# Limit available virtual memory to 10MB
+ENTRYPOINT ["/run.sh", "10240"]

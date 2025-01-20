@@ -1,0 +1,16 @@
+// Under dynamic scope rules, 'incr' is applied in an environment
+// in which 'amt' has a global binding, and is bound to the value 1.
+//
+// The result here should be 6 under dynamic scope.
+//
+// Under lexical scope rules, applying 'incr' throws an error,
+// because there is no binding for 'amt' in the environment in
+// which 'incr' is bound (i.e. where the RHS lambda expression
+// is evaluated).
+//
+{
+  let incr lambda(n) {add(amt,n)};
+  let amt 1;
+  incr(5)
+}
+
