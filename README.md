@@ -398,7 +398,7 @@ $
 
 ## Interpretor:
 The code that i wrote is in this, file, basically it an python interpretor for the programming language called 417 (made by us).
-Whata ever code that is written in file.417 will be interpreted using this python file and the parser. ONLY THE PYHTON FILE IS WRITTEN BY ME.
+What ever code that is written in file.417 will be interpreted using this python file and the parser. ONLY THE PYHTON FILE IS WRITTEN BY ME.
 
 ## License
 
