@@ -396,12 +396,9 @@ $
 * `-h` for help. 
 
 
-## Contributing
-
-If you want to contribute, open a pull request.  It's best to let me know ahead
-of time, so we can discuss what contributions would be useful and likely to be
-accepted.
-
+## Interpretor:
+The code that i wrote is in this, file, basically it an python interpretor for the languagua, that we made called 417.
+Whata ever code that is written in file.417 will be interpreted using this python file and the parser. ONLY THE PYHTON FILE IS WRITTEN BY ME.
 
 ## License
 
